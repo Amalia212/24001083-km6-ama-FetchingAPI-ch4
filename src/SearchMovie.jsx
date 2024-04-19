@@ -44,13 +44,13 @@ function MovieSearch() {
         Search Results for "{searchTerm}"
       </h1>
       <form onSubmit={handleSearch} className="mb-4">
-        {/* <input
+        <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search movies..."
           className="border border-gray-300 rounded px-4 py-2 mr-2"
-        /> */}
+        />
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded"

@@ -94,7 +94,7 @@ const PlayingNow = () => {
               onClick={() => {
                 navigate("/DetailNow-Playing", { state: { id: playing.id } });
               }}
-              className="bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer hover:shadow-xl hover:bg-gray-800 transition duration-300 hover:filter hover:grayscale hover:scale-105"
+              className="bg-gray-800 rounded-lg shadow-lg overflow-hidden cursor-pointer hover:shadow-xl hover:bg-gray-800"
             >
               <img
                 src={`https://image.tmdb.org/t/p/w500/${playing.poster_path}`}

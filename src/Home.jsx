@@ -20,6 +20,7 @@ export default function Home() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [resultSearch, setResultSearch] = useState([]);
   const [query, setQuery] = useState("");
+  const [userData, setUserData] = useState("");
   const slider = useRef(null);
 
   const searchMovies = async () => {
@@ -127,12 +128,73 @@ export default function Home() {
     slidesToScroll: 1,
   };
 
+  async function fetchUserData(token) {
+    try {
+      const response = await axios.get(
+        "https://shy-cloud-3319.fly.dev/api/v1/auth/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.data) {
+        throw new Error("Failed to fetch user data");
+      }
+      return response.data;
+    } catch (error) {
+      console.error("Error:", error.message);
+      return null;
+    }
+  }
+
+  async function getUserData() {
+    const token = localStorage.getItem("token");
+    const userData = await fetchUserData(token);
+    console.log("TOKENN", token);
+    console.log("userrrrrrr", userData);
+    if (userData) {
+      setUserData(userData);
+      console.log("User data:", userData);
+    } else {
+      console.log("Failed to fetch user data");
+    }
+  }
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
   return (
     <div className="bg-yellow-950">
-      <Navbar query={query} setQuery={setQuery} searchMovies={searchMovies} />
+      <Navbar
+        query={query}
+        setQuery={setQuery}
+        searchMovies={searchMovies}
+        userData={userData}
+        setUserData={setUserData}
+      />
       {query?.length === 0 ? (
         <div>
           <Header />
+          <div>
+            {userData && userData.name ? ( // Memeriksa apakah userData dan userData.name memiliki nilai
+              <h1 className="text-2xl font-bold text-red-100 ml-12 text-center">
+                Selamat Datang {userData.name}!
+                {userData.data &&
+                  userData.data.name &&
+                  `(${userData.data.name})`}
+                {/* Menampilkan pesan selamat datang dengan nama pengguna */}
+              </h1>
+            ) : (
+              <h1 className="text-2xl font-bold text-red-100 ml-12 text-center">
+                Selamat Datang
+                {/* Menampilkan pesan bahwa data pengguna sedang dimuat */}
+              </h1>
+            )}
+          </div>
+
           <div className="slider-container px-16">
             <h2 className="text-2xl text-yellow-200 font-black my-4">
               Now Playing
